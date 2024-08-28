@@ -1,0 +1,85 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+char tush[10];
+int top = -1;
+
+void push(char ele)
+{
+    if (top < 9)
+    {
+        top++;
+        tush[top] = ele;
+    }
+}
+
+char pop()
+{
+    if (top >= 0)
+    {
+        return tush[top--];
+    }
+    return '\0';
+}
+
+int check(char ele)
+{
+    if (ele == '*' || ele == '/')
+    {
+        return 1;
+    }
+    else if (ele == '+' || ele == '-')
+    {
+        return 0;
+    }
+    return -1; 
+}
+
+int main()
+{
+    string a;
+    int n;
+    cout << "Enter the expression for conversion: ";
+    getline(cin, a);
+
+    n = a.length();
+
+    for (int i = 0; i < n; i++)
+    {
+        
+        if (a[i] == '*' || a[i] == '/' || a[i] == '+' || a[i] == '-')
+        {
+            while (top >= 0 && check(tush[top]) >= check(a[i]))
+            { 
+                cout << pop();
+            }
+            push(a[i]); 
+        }
+        else if (a[i] == '(')
+        {
+            push(a[i]); 
+        }
+        else if (a[i] == ')')
+        {
+            while (top >= 0 && tush[top] != '(')
+            { 
+                cout << pop();
+            }
+            pop(); 
+        }
+        else
+        {
+            cout << a[i]; 
+        }
+    }
+
+    
+    while (top >= 0)
+    {
+        cout << pop();
+    }
+
+    cout << endl;
+    return 0;
+}
