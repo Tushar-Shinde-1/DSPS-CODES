@@ -31,7 +31,7 @@ int main()
         switch (temp)
         {
         case 1:
-            // Linear search
+            
             for (i = 0; i < n; i++)
             {
                 if (a[i] == ele)
@@ -48,7 +48,7 @@ int main()
             break;
 
         case 2:
-            // Bubble sort
+        
             for (i = 0; i < n - 1; i++)
             {
                 for (int j = 0; j < n - i - 1; j++)
@@ -68,8 +68,8 @@ int main()
             }
             cout << endl;
 
-            // Binary search
-            found = 0; // Reset found flag
+        
+            found = 0;
             while (low <= high)
             {
                 mid = (high + low) / 2;
