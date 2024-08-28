@@ -1,0 +1,152 @@
+#include <iostream>
+#include <string>
+#include <cstring>
+
+using namespace std;
+
+struct book {
+    string name;
+    float price;
+};
+
+struct newarry {
+    char name[100];
+    float price;
+};
+
+void sort(struct book b1[], int n) {
+    int i, j;
+    for (i = 0; i < n - 1; i++) {
+        for (j = 0; j < n - i - 1; j++) {
+            if (b1[j].price > b1[j + 1].price) {
+                struct book temp = b1[j];
+                b1[j] = b1[j + 1];
+                b1[j + 1] = temp;
+            }
+        }
+    }
+    for (i = 0; i < n; i++) {
+        cout << "Book " << i + 1 << "  Name = " << b1[i].name << "  Price = " << b1[i].price << endl;
+    }
+}
+
+void insertbook(int n, struct book b1[]) {
+    int i;
+    for (i = 0; i < n; i++) {
+        cout << "Enter the name of book " << i + 1 << ": ";
+        cin >> b1[i].name;
+        cout << "Enter the price of book " << i + 1 << ": ";
+        cin >> b1[i].price;
+    }
+    cout << "\n\nThe books in ascending order of price :" << endl;
+    sort(b1, n);
+}
+
+void reverse(int n, struct book b1[]) {
+    cout << "\nThe books in descending order of their price are:\n";
+    for (int i = 0; i < n / 2; i++) {
+        struct book temp = b1[n - i - 1];
+        b1[n - i - 1] = b1[i];
+        b1[i] = temp;
+    }
+    for (int i = 0; i < n; i++) {
+        cout << "Book " << i + 1 << " Name = " << b1[i].name << " Price = " << b1[i].price << endl;
+    }
+}
+
+void copy(int n, struct book b1[], struct newarry n1[]) {
+    cout << "\n\n";
+    int num = 0;
+    for (int i = 0; i < n; i++) {
+        if (b1[i].price < 500) {
+            strcpy(n1[n].name, b1[i].name.c_str());
+            n1[n].price = b1[i].price;
+            num++;
+            cout << "Book Name: " << n1[n].name << " Price: " << n1[n].price << endl;
+        }
+    }
+}
+
+void deletedupli(int &n, struct book b1[]) {
+    cout << "\n\n";
+    int count = 0;
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = i + 1; j < n; j++) {
+            if (b1[i].name == b1[j].name && b1[i].price == b1[j].price) {
+                cout<<"book name: "<<b1[i].name<<" book price : "<<b1[i].price<<endl;
+                for (int k = j; k < n - 1; k++) {
+                    b1[k] = b1[k + 1];
+                }
+                n--; 
+                j--; 
+                count++;
+            }
+        }
+    }
+    if (count > 0) {
+        cout << "The number of deleted duplicate books is " << count << endl;
+    } else {
+        cout << "NO DUPLICATE BOOK FOUND!!" << endl;
+    }
+}
+
+void count(int n, struct book b1[]) {
+    int count = 0;
+    for (int i = 0; i < n; i++) {
+        if (b1[i].price > 500) {
+            count++;
+        }
+    }
+    if (count > 0) {
+        cout << "\n\nThe total number of books is " << count << endl;
+    } else {
+        cout << "\n\nNO BOOK FOUND!!" << endl;
+    }
+    count = 0;
+}
+
+void display(int n, struct book b1[]) {
+    cout << "\n\nDisplaying all books:\n";
+    for (int i = 0; i < n; i++) {
+        cout << "Book " << i + 1 << " Name = " << b1[i].name << " Price = " << b1[i].price << endl;
+    }
+}
+
+int main() {
+    struct newarry n1[100];
+    struct book b1[600];
+    int n, i, temp, num;
+
+    do {
+        int temp = 0;
+        cout << "\n\nWhat do you want to perform:\n 1. Insert the books \n 2. Sort book in descending order \n 3. Copy books less than 500 rupees \n 4. Delete book without using temp \n 5. Count books above price 500 \n 6. Display all books \n 7. End ";
+        cin >> temp;
+        switch (temp) {
+        case 1:
+            cout << "\n\nHow many books do you want to add? ";
+            cin >> n;
+            insertbook(n, b1);
+            break;
+        case 2:
+            reverse(n, b1);
+            break;
+        case 3:
+            copy(n, b1, n1);
+            break;
+        case 4:
+            deletedupli(n, b1);
+            break;
+        case 5:
+            count(n, b1);
+            break;
+        case 6:
+            display(n, b1);
+            break;
+        case 7:
+            cout << "Thank you!!";
+            break;
+        default:
+            cout << "Wrong choice";
+        }
+    } while (temp != 7);
+}
