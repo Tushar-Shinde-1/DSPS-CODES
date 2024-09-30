@@ -1,0 +1,127 @@
+#include <iostream>
+#include <queue>
+using namespace std;
+class order
+{
+    public:
+    string name;
+    int no;
+    order(string ordername,int n)
+    {
+        name=ordername;
+        no=n;
+    }
+};
+class pizza
+{
+public:
+    queue<order> orders;
+    int no;
+    string ordername;
+    int max;
+     pizza(int m)
+    {
+        max=m;
+    }
+    void input(string name,int id)
+    {   if(orders.size()<max){
+
+
+        orders.push(order(name,id));
+        cout<<"order placed"<<endl;
+    }
+    else{
+        cout<<"Order limit reached. Cannot place more orders."<<endl;
+    }
+    }
+
+    void current()
+    {
+        if(!orders.empty())
+       { 
+        cout << "\n\nget your order" << endl;
+        cout << "order ID :" << orders.front().no << ":" << orders.front() .name<< "is currenly avilable" << endl;
+        cout << "kindly take your order" << endl;
+
+        orders.pop();
+
+       }
+       else
+       {
+         cout << "No orders to serve." << endl;
+       }
+
+    }
+
+
+    void display()
+    { cout<<"\n\n";
+        if(orders.empty())
+        {
+            cout<<"no orders!!"<<endl;
+        }
+
+
+        queue<order>temp = orders;
+        while (!temp.empty())
+        {
+            cout << "order ID :"<<temp.front().no<<" :"<< temp.front().name << endl;
+            temp.pop();
+
+        }
+        }
+
+};
+
+
+int main()
+{
+    int maxorder=100;
+    int n = 1, i, num, ch, temp;
+    int orderno = 1;
+
+    pizza a(maxorder);
+    string name;
+
+    do
+    {
+
+        cout << "\nwelcome to pizza parlor" << endl;
+        cout << "\nplease select your choice" << endl;
+        cout << "1.place a order\n2.get orders \n3. display orders\n4.end " << endl;
+        cin >> ch;
+        switch (ch)
+        {
+        case 1:
+
+            cout << "\nhow many orders you want to pass";
+            cin >> temp;
+            cout<<"enter the order"<<endl;
+            for (i = 0; i < temp; i++)
+
+            {
+                cout << "order ID " << n << ":";
+
+                cin >> name;
+
+                a.input(name,n);
+                n++;
+
+            }
+            break;
+        case 2:
+
+                a.current();
+
+            break;
+        case 3:
+
+                a.display();
+
+
+
+            break;
+        }
+    } while (ch != 4);
+    return 0;
+}
