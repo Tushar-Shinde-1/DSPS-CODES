@@ -1,0 +1,142 @@
+#include<iostream>
+using namespace std;
+#define MAX 5
+class deque
+{
+    int arr[MAX];
+
+    public:
+    int front=-1;
+    int rear=0;
+    int size=0;
+ bool isfull()
+ {
+    return(size==MAX-1);
+ }
+ bool isempty()
+ {
+ return (size==0);
+ }
+ void insertfront(int x)
+ {
+    if(isfull())
+    {
+        cout<<"queue is full";
+        return;
+    }
+    if(front==-1)
+    {
+        front =0;
+    }
+    else if(front ==0)
+    {
+        front=MAX-1;
+    }
+    else {
+        front --;
+    }
+    arr[front]=x;
+    size++;
+     cout << x << " added to front\n";
+ }
+void insertrear(int x)
+{
+    if(rear==MAX){
+        cout<<"deque is full";
+        return;
+    }
+    if(front==-1)
+    {
+        front=rear=0;
+    }
+    else if(rear==MAX-1)
+    {
+        rear=0;
+    }
+    else{
+        rear++;
+    }
+    arr[rear]=x;
+    size++;
+     cout << x << " added to rear\n";
+}
+
+void deletefront()
+{
+    if(isempty())
+    {
+        cout<<"deque is empty";
+        return;
+    }
+    cout << arr[front] << " removed from front\n";
+    if(front==rear)
+    {
+        front=-1;
+        rear=0;
+    }
+    else if(front==MAX-1)
+    {
+        front=0;
+    }
+    else{
+        front++;
+    }
+    size--;
+}
+
+void deleterear(){
+  if (isempty()) {
+            cout << "Deque is empty\n";
+            return;
+        }
+else if(rear==front)
+{
+    front=-1;
+    rear=0;
+}
+else if(rear==0)
+
+{
+rear=MAX-1;
+}
+else{
+    rear--;
+}
+size--;
+}
+void display()
+{
+    if (isempty()) {
+            cout << "Deque is empty\n";
+            return;
+        }
+        int i=front;
+        cout<<"deque elements are :";
+        while (true)
+        {
+         cout<<arr[i]<<" ";
+         if (i==rear)
+         {
+            break;
+         }
+         i=(i+1)%MAX;
+        }
+         cout << endl;
+}
+};
+int main()
+{
+    deque dq;
+    dq.insertrear(5);
+    dq.insertrear(10);
+    dq.display();
+    dq.insertfront(15);
+    dq.display();
+    dq.deletefront();
+    dq.display();
+
+    dq.deleterear();
+    dq.display();
+
+    return 0;
+}
