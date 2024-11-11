@@ -1,0 +1,159 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+struct Donor
+{
+    string name;
+    int id;
+    string contact;
+    Donor *next;
+};
+
+Donor *temp, *head = nullptr;
+
+class CharityManagement
+{
+public:
+    void addDonor(string name, int id, string contact)
+    {
+        Donor *newDonor = new Donor();
+        newDonor->name = name;
+        newDonor->id = id;
+        newDonor->contact = contact;
+        newDonor->next = nullptr;
+        if (head == nullptr)
+        {
+            head = temp = newDonor;
+        }
+        else
+        {
+            temp->next = newDonor;
+            temp = newDonor;
+        }
+    }
+
+    void displayDonors()
+    {
+        temp = head;
+        while (temp != nullptr)
+        {
+            cout << "Name: " << temp->name << ", ID: " << temp->id << ", Contact: " << temp->contact << endl;
+            temp = temp->next;
+        }
+    }
+
+    void removeDonor(int id)
+    {
+        Donor *prev = nullptr;
+        temp = head;
+
+        while (temp != nullptr)
+        {
+            if (temp->id == id)
+            {
+                if (prev == nullptr)
+                {
+                    head = temp->next;
+                }
+                else
+                {
+                    prev->next = temp->next;
+                }
+                delete temp;
+                cout << "Donor with ID " << id << " removed.\n";
+                return;
+            }
+            prev = temp;
+            temp = temp->next;
+        }
+        cout << "Donor with ID " << id << " not found.\n";
+    }
+
+    void updateDonor(string name, int id, string contact)
+    {
+        addDonor(name, id, contact);
+        cout << "Donor with ID " << id << " updated.\n";
+    }
+
+    void searchDonor(string name, string contact)
+    {
+        temp = head;
+        while (temp != nullptr)
+        {
+            if (temp->name == name && temp->contact == contact)
+            {
+                cout << "Donor with name " << name << " and contact " << contact << " found.\n";
+                return;
+            }
+            temp = temp->next;
+        }
+        cout << "Donor with name " << name << " and contact " << contact << " not found.\n";
+    }
+};
+
+int main()
+{
+    CharityManagement cm;
+    string name;
+    string contact;
+    int id;
+    int choice;
+
+    do
+    {
+        cout << "\nChoose an option:\n"
+             << "1. Add Donor\n"
+             << "2. Search Donor\n"
+             << "3. Remove Donor\n"
+             << "4. Update Donor\n"
+             << "5. Display All Donors\n"
+             << "6. Exit\n";
+        cin >> choice;
+
+        switch (choice)
+        {
+        case 1:
+            cout << "How many donors do you want to add? ";
+            int n;
+            cin >> n;
+            for (int i = 0; i < n; i++)
+            {
+                cout << "Enter the donor's name: ";
+                cin >> name;
+                cout << "Enter the donor's contact: ";
+                cin >> contact;
+                cout << "Enter the donor's ID: ";
+                cin >> id;
+                cm.addDonor(name, id, contact);
+            }
+            break;
+        case 2:
+            cout << "Enter the donor's name: ";
+            cin >> name;
+            cout << "Enter the donor's contact: ";
+            cin >> contact;
+            cm.searchDonor(name, contact);
+            break;
+        case 3:
+            cout << "Enter the ID of the donor to remove: ";
+            cin >> id;
+            cm.removeDonor(id);
+            break;
+        case 4:
+            cout << "Enter the donor's name: ";
+            cin >> name;
+            cout << "Enter the donor's contact: ";
+            cin >> contact;
+            cout << "Enter the donor's ID: ";
+            cin >> id;
+            cm.updateDonor(name, id, contact);
+            break;
+        case 5:
+            cm.displayDonors();
+            break;
+        }
+    } while (choice != 6);
+
+    return 0;
+}
