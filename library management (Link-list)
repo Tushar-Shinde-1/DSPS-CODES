@@ -1,0 +1,153 @@
+#include <iostream>
+using namespace std;
+#include <string>
+struct book
+{
+    string title;
+    int id;
+    string author;
+    struct book *next;
+};
+book *temp, *head = nullptr;
+class library
+{
+public:
+    class library *next;
+
+    void insert(string name, int no, string author)
+    {
+
+        book *newbook = new book();
+        newbook->title = name;
+        newbook->id = no;
+        newbook->author = author;
+        newbook->next = nullptr;
+        if (head == nullptr)
+        {
+
+            head = temp = newbook;
+        }
+        else
+        {
+            temp->next = newbook;
+            temp = newbook;
+        }
+    }
+    void display()
+    {
+        temp = head;
+        while (temp != nullptr)
+        {
+            cout << temp->title << " " << temp->id << " " << temp->author << endl;
+            temp = temp->next;
+        }
+    }
+    void issue(int id)
+    {
+        book *prev = nullptr;
+        temp = head;
+
+        while (temp != nullptr)
+        {
+            if (temp->id == id)
+            {
+                if (prev == nullptr)
+                {
+
+                    head = temp->next;
+                }
+                else
+                {
+
+                    prev->next = temp->next;
+                }
+                delete temp;
+                cout << "Book with ID " << id << " issued.\n";
+                return;
+            }
+            prev = temp;
+            temp = temp->next;
+        }
+        cout << "Book with ID " << id << " not found.\n";
+    }
+    void returnBook(string name, int id, string author)
+    {
+        insert(name, id, author);
+        cout << "Book with ID " << id << " returned.\n";
+    }
+    void check(string title, string author)
+    {
+        temp = head;
+        while (temp != nullptr)
+        {
+            if (temp->title == title && temp->author == author)
+            {
+                cout << "Book with title " << title << " and author " << author << " found.\n";
+                return;
+            }
+            temp = temp->next;
+        }
+        cout << "Book with title " << title << " and author " << author << " not found.\n";
+    }
+
+};
+int main()
+{
+    library l1;
+    string name;
+    string author;
+    int id;
+    int ch;
+    do {
+        
+        cout<<"what do you want to perform\n 1. insert book \n 2. check book \n 3. issue book \n 4. return book \n 5. display books \n 6. exit";
+        cin>>ch;
+        
+            switch(ch)
+            {
+                case 1:
+                    cout<<"how many book you want to add";
+                    int n;
+                    cin>>n;
+                    for(int i=0;i<n;i++)
+                    {
+                    cout << "Enter the name of the book: ";
+                    cin >> name;
+                    cout << "Enter the author of the book: ";
+                    cin >> author;
+                    cout << "Enter the id of the book: ";
+                    cin >> id;
+                    l1.insert(name, id, author);
+            }
+                    break;
+                case 2:
+                    cout << "Enter the title of the book: ";
+                    cin >> name;
+                    cout << "Enter the author of the book: ";
+                    cin >> author;
+                    l1.check(name, author);
+                    break;
+                case 3:
+                    cout << "Enter the id of the book: ";
+                    cin >> id;
+                    l1.issue(id);
+                    break;
+                case 4:
+                   
+                     cout << "Enter the name of the book: ";
+                    cin >> name;
+                    cout << "Enter the author of the book: ";
+                    cin >> author;
+                    cout << "Enter the id of the book: ";
+                    cin >> id;
+                    l1.returnBook(name,id,author);
+                    break;
+                case 5:
+                    l1.display();
+                    break;
+            }
+
+            }while(ch!=6);
+        
+    }
+    
